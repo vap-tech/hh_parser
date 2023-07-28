@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "hh-parser"
+version = "0.1.0"
+description = ""
+authors = ["kot <bafomet2016vitt@gmail.com>"]
+readme = "README.md"
+packages = [{include = "hh_parser"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+psycopg2 = "^2.9.6"
+pytest = "^7.4.0"
+coverage = "^7.2.7"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
