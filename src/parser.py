@@ -5,7 +5,7 @@ import bleach
 from src.vacancy import Vacancy
 
 
-class HHVacancy(BaseModel):
+class HHVacancyModel(BaseModel):
     """Модель данных Вакансия"""
     id: int  # id вакансии
     name: str  # Название
@@ -14,6 +14,7 @@ class HHVacancy(BaseModel):
     created_at: str  # Дата и время публикации вакансии
     salary: Optional[dict] = None  # Зарплата
     snippet: Optional[dict] = None  # Фрагмент описания
+    employer: Optional[dict]  # Работодатель
 
     def to_vacancy(self):
         """
@@ -30,13 +31,14 @@ class HHVacancy(BaseModel):
         des = "".join([i for i in self.snippet.values() if i])
         des = bleach.clean(des,  tags=[], strip=True)
         url_ = self.alternate_url if self.alternate_url else "Нет Url'а"
+        emp_id = self.employer['id']
 
-        return Vacancy(self.id, self.name, url_, self.area['name'], pay, des)
+        return Vacancy(self.id, self.name, url_, self.area['name'], pay, des, emp_id)
 
 
-class HHBaseModel(BaseModel):
+class HHVacancyBaseModel(BaseModel):
     """Базовая модель данных ответа от HH на запрос вакансий"""
-    items: list[HHVacancy]  # Список сокращенных представлений резюме
+    items: list[HHVacancyModel]  # Список сокращенных представлений резюме
     found: int  # Найдено результатов
     page: int  # Номер страницы
     pages: int  # Всего страниц
@@ -48,3 +50,7 @@ class HHBaseModel(BaseModel):
         :return: Список из объектов Vacancy
         """
         return [vac.to_vacancy() for vac in self.items]
+
+
+class HHEmployerModel(BaseModel):
+    """Модель данных работодатель"""

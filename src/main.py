@@ -11,15 +11,6 @@ def main():
 
     vacancies_list = collector(key_word, area, src, count)  # Получаем вакансии из источников
 
-    print('\nВакансии загружены\nОчистить Json?\n')
-
-    jc = JsonConnector(FILENAME)  # Объект для работы с файлом Json
-
-    user_input = input('Enter - нет, y/д - да ')
-    if user_input != '':
-        jc.clear()
-        print('Json файл очищен')
-
     print('Отсортировать полученные вакансии по заработной плате?')
 
     user_input = input('Enter - да, n/н - нет ')
@@ -28,7 +19,7 @@ def main():
         print('Вакансии отсортированы')
 
     display = 0
-    json_only = 1 if src in [0, 4] else None
+
     while src:
         if src & 1:
             display += count
@@ -52,11 +43,6 @@ def main():
 
     for i in vacancies_list[:display]:
         print(i)
-
-    if not json_only:
-        jc.add(vacancies_list)
-        print('\nВсе вакансии добавлены в файл Json')
-        print('При следующем запуске можно работать с ними без обращения к API')
 
 
 if __name__ == '__main__':

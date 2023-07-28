@@ -1,9 +1,5 @@
-from functools import total_ordering
-
-
-@total_ordering  # Декоратор, генерирует недостающие методы сравнения
-class Vacancy:
-    """Общий класс для вакансий"""
+class Employer:
+    """Общий класс для работодателя"""
     def __init__(
             self,
             id_: int,
@@ -33,12 +29,6 @@ class Vacancy:
 
     def __str__(self) -> str:
         return f'{self.name}, {self.salary} руб. {self.url}'
-
-    def __lt__(self, other):
-        return self.salary < other.salary
-
-    def __eq__(self, other):
-        return self.salary == other.salary
 
     @property
     def all_to_dict(self) -> dict:

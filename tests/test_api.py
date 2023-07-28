@@ -1,4 +1,4 @@
-from src.api import HHApi, BaseApi
+from src.api import HHVacancyApi, BaseApi
 import pytest
 
 
@@ -6,14 +6,14 @@ def test_hh_api():
     """Test HH Api"""
 
     # Case #1
-    hh = HHApi()
-    data = hh.get_vacancies()
+    hh = HHVacancyApi()
+    data = hh.get()
     assert data is not None
 
     # case #2
     hh.url = 'https://v-petrenko.ru/none/'
     with pytest.raises(Exception):
-        hh.get_vacancies()
+        hh.get()
 
 
 def test_base_api():
