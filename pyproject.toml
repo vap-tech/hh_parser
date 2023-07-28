@@ -6,14 +6,6 @@ authors = ["kot <bafomet2016vitt@gmail.com>"]
 readme = "README.md"
 packages = [{include = "hh_parser"}]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-psycopg2 = "*"
-pytest = "*"
-coverage = "*"
-requests = "*"
-
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
