@@ -6,6 +6,10 @@ authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+requests = "^2.31.0"
+pytest = "^7.4.0"
+psycopg2 = "^2.9.6"
+coverage = "^7.2.7"
 
 [tool.poetry.dev-dependencies]
 
