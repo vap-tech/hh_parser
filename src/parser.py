@@ -5,6 +5,38 @@ import bleach
 from src.vacancy import Vacancy
 
 
+class Area(BaseModel):
+    """Модель местности с hh"""
+    id: int  # id местности
+    name: str  # Название
+    url: str  # ссылка на данную местность
+
+
+class EmployerBaseModel(BaseModel):  # Этот класс наверно должен быть абстрактным???
+    """Модель данных работодатель"""
+    id: str  # Идентификатор работодателя
+    name: str  # Название работодателя
+    alternate_url: str  # Ссылка на описание работодателя на сайте hh
+    vacancies_url: str  # URL для получения поисковой выдачи с вакансиями данного работодателя
+    accredited_it_employer: bool  # Флаг, показывающий, прошел ли работодатель IT аккредитацию
+    trusted: bool  # Флаг, показывающий, прошел ли работодатель проверку на сайте
+
+
+class EmployerVacancyModel(EmployerBaseModel):
+    """Модель данных работодатель в вакансии"""
+    url: str  # Адрес для подробного запроса
+
+
+class EmployerFullModel(EmployerBaseModel):
+    """Модель для подробного запроса по работодателю"""
+    type: str  # Тип работодателя (прямой работодатель, кадровое агентство или null, если тип работодателя скрыт)
+    description: str  # Описание работодателя в виде строки с кодом HTML
+    site_url: str  # Адрес сайта работодателя
+    area: Area  # Информация о регионе работодателя
+    industries: list  # Список отраслей работодателя. Элементы справочника индустрий hh
+    open_vacancies: int  # Количество открытых вакансий у работодателя
+
+
 class HHVacancyModel(BaseModel):
     """Модель данных Вакансия"""
     id: int  # id вакансии
@@ -52,5 +84,3 @@ class HHVacancyBaseModel(BaseModel):
         return [vac.to_vacancy() for vac in self.items]
 
 
-class HHEmployerModel(BaseModel):
-    """Модель данных работодатель"""
