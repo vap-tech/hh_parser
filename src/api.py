@@ -32,7 +32,7 @@ class BaseApi(ABC):
         r.raise_for_status()
 
 
-class HHVacancyApi(BaseApi):
+class VacancyApi(BaseApi):
     """Класс получения вакансий средствами api hh.ru"""
     def __init__(self):
         """Адрес api и заголовки для запросов вакансий с hh"""
@@ -44,7 +44,7 @@ class HHVacancyApi(BaseApi):
         self.url = 'https://api.hh.ru/vacancies/'
 
 
-class HHEmployerApi(BaseApi):
+class EmployerApi(BaseApi):
     """Класс получения данных о работодателе"""
     def __init__(self):
         """Адрес api и заголовки для запросов данных о работодателе с hh"""

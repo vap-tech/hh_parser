@@ -1,4 +1,4 @@
-from src.api import HHVacancyApi, BaseApi
+from src.api import VacancyApi, BaseApi
 import pytest
 
 
@@ -6,7 +6,7 @@ def test_hh_api():
     """Test HH Api"""
 
     # Case #1
-    hh = HHVacancyApi()
+    hh = VacancyApi()
     data = hh.get()
     assert data is not None
 
