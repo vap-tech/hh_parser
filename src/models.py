@@ -9,19 +9,24 @@ class Area(BaseModel):
     url: str  # ссылка на данную местность
 
 
+class Snippet(BaseModel):
+    requirement: Optional[str]
+    responsibility: Optional[str]
+
+
 class EmployerBase(BaseModel):  # Этот класс наверно должен быть абстрактным???
     """Модель данных работодатель"""
-    id: str  # Идентификатор работодателя
+    id: Optional[int] = None  # Идентификатор работодателя
     name: str  # Название работодателя
-    alternate_url: str  # Ссылка на описание работодателя на сайте hh
-    vacancies_url: str  # URL для получения поисковой выдачи с вакансиями данного работодателя
-    accredited_it_employer: bool  # Флаг, показывающий, прошел ли работодатель IT аккредитацию
-    trusted: bool  # Флаг, показывающий, прошел ли работодатель проверку на сайте
+    alternate_url: Optional[str] = None  # Ссылка на описание работодателя на сайте hh
+    vacancies_url: Optional[str] = None  # URL для получения поисковой выдачи с вакансиями данного работодателя
+    accredited_it_employer: Optional[bool] = False  # Флаг, показывающий, прошел ли работодатель IT аккредитацию
+    trusted: Optional[bool] = False  # Флаг, показывающий, прошел ли работодатель проверку на сайте
 
 
 class EmployerInVacancy(EmployerBase):
     """Модель данных работодатель в вакансии"""
-    url: str  # Адрес для подробного запроса
+    url: Optional[str] = None  # Адрес для подробного запроса
 
 
 class EmployerFull(EmployerBase):
@@ -42,8 +47,8 @@ class Vacancy(BaseModel):
     area: Area  # Место расположения
     created_at: str  # Дата и время публикации вакансии
     salary: Optional[dict] = None  # Зарплата
-    snippet: Optional[dict] = None  # Фрагмент описания
-    employer: Optional[EmployerInVacancy]  # Работодатель
+    snippet: Optional[Snippet] = None  # Фрагмент описания
+    employer: Optional[EmployerInVacancy] = None  # Работодатель
     apply_alternate_url: str  # Ссылка для отклика
 
 
