@@ -54,4 +54,3 @@ while 1:
 
     if action == '10':
         break
-

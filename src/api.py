@@ -77,4 +77,3 @@ class AreaApi(BaseApi):
         }
 
         self.url = 'https://api.hh.ru/areas/'
-
