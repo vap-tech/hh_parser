@@ -1,63 +1,56 @@
-from src.functions import collector, input_source
-from src.area_selector import AreaSelector
+from src.functions import load_api
+from src.db_manager import DBManager
 
+variants = ['1 - Загрузить данные из hh в БД',
+            '2 - Вывести все компании и количество их вакансий',
+            '3 - Вывести список всех вакансий',
+            '4 - Вывести среднюю зарплату по вакансиям',
+            '5 - Вывести вакансии, у которых зарплата выше средней',
+            '6 - Вывести из БД вакансии по ключевому слову',
+            '7 - Проинициализировать БД (если первый запуск)',
+            '10 - выйти из программы',
+            'Введите число: ']
 
-def main():
+variants = '\n'.join(variants)
 
-    src = input_source()  # Получаем источники вакансий
-    count = int(input('Сколько вакансий загрузить из каждого источника? '))   # Запросили кол-во вакансий
-    area = AreaSelector().get() if src not in [0, 4] else None  # Получаем город
-    key_word = input('Введите ключевое слово для поиска: ') if src not in [0, 4] else None  # Получаем ключевое слово
+manager = DBManager()
 
-    vacancies_list = collector(key_word, area, src, count)  # Получаем вакансии из источников
+while 1:
+    action = input(variants)
 
-    print('\nВакансии загружены\nОчистить Json?\n')
+    if action == '1':
+        vacs = load_api()
+        manager.vacancy_to_db(vacs)
+        print('OK')
 
-    jc = JsonConnector(FILENAME)  # Объект для работы с файлом Json
+    if action == '2':
+        data = manager.get_companies_and_vacancies_count()
+        for i in data:
+            print(*i)
 
-    user_input = input('Enter - нет, y/д - да ')
-    if user_input != '':
-        jc.clear()
-        print('Json файл очищен')
+    if action == '3':
+        data = manager.get_all_vacancies()
+        for i in data:
+            print(*i)
 
-    print('Отсортировать полученные вакансии по заработной плате?')
+    if action == '4':
+        data = manager.get_avg_salary()
+        for i in data:
+            print(f'{int(*i)} руб')
 
-    user_input = input('Enter - да, n/н - нет ')
-    if user_input == '':
-        vacancies_list.sort(reverse=True)
-        print('Вакансии отсортированы')
+    if action == '5':
+        data = manager.get_vacancies_with_higher_salary()
+        for i in data:
+            print(*i)
 
-    display = 0
-    json_only = 1 if src in [0, 4] else None
-    while src:
-        if src & 1:
-            display += count
-        src = src >> 1
+    if action == '6':
+        data = manager.get_vacancies_with_keyword(input('Слово: '))
+        for i in data:
+            print(*i)
 
-    print(display)
-    print('Сколько вакансий вывести на экран?')
+    if action == '7':
+        data = manager.create_table()
+        print('\nOK\n')
 
-    while True:
-        user_input = input(f'от 0 до {display} ')
-        try:
-            user_input = int(user_input)
-        except ValueError:
-            print('Неправильный ввод')
-            continue
-        else:
-            if 0 <= user_input <= display:
-                display = user_input
-                break
-        print('Неправильный ввод')
-
-    for i in vacancies_list[:display]:
-        print(i)
-
-    if not json_only:
-        jc.add(vacancies_list)
-        print('\nВсе вакансии добавлены в файл Json')
-        print('При следующем запуске можно работать с ними без обращения к API')
-
-
-if __name__ == '__main__':
-    main()
+    if action == '10':
+        break

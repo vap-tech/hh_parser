@@ -1,28 +1,21 @@
-import requests
+from src.api import AreaApi
 
 
 class AreaSelector:
-    """
-    Класс выбора местности для сужения ареала поиска вакансий.
-    Аргументировано дублированием вакансий в разных городах.
-    """
+    """Класс выбора местности для поиска вакансий."""
     def __init__(self):
-        self.data = requests.get(
-            'https://api.hh.ru/areas',
-            params={'User-Agent': 'api-test-agent'}
-        ).json()
+        self.data = AreaApi().get_request().json()
 
     def get(self):
-        return self.get_area_id(self.data)
+        return self.__get_area_id(self.data)
 
-    def get_area_id(self, data: list):
+    def __get_area_id(self, data: list):
         """
         Рекурсивный выбор id местности из справочника местности HH
         :param data:
             список местностей соответствующей ответу от api hh структуры
         :return:
-            [id выбранной местности, name выбранной местности]
-            id используется в HH, name используется с SuperJob
+            id выбранной местности
         """
 
         for i in range(len(data)):  # Выводим список местностей
@@ -32,5 +25,5 @@ class AreaSelector:
 
         if not data[a]['areas']:  # Базовый случай
             print(f'Ваш выбор - {data[a]["name"]}')
-            return [data[a]['id'], data[a]['name']]
-        return self.get_area_id(data[a]['areas'])  # Рекурсия
+            return int(data[a]['id'])
+        return self.__get_area_id(data[a]['areas'])  # Рекурсия
