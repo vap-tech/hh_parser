@@ -46,7 +46,7 @@ def load_api():
 
     while 1:
 
-        count_vac = input('Введите количество вакансий от 1 до 2000')
+        count_vac = input('Введите количество вакансий от 1 до 2000 ')
 
         if not count_vac.isdigit():
             print('Некорректный ввод')

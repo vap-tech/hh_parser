@@ -1,20 +1,22 @@
 from src.functions import load_api
 from src.db_manager import DBManager
 
-data = ['1 - Загрузить данные из hh в БД',
-        '2 - Вывести все компании и количество их вакансий',
-        '3 - Вывести список всех вакансий',
-        '4 - Вывести среднюю зарплату по вакансиям',
-        '5 - Вывести вакансии, у которых зарплата выше средней',
-        '6 - Вывести из БД вакансии по ключевому слову',
-        '7 - Проинициализировать БД (если первый запуск)',
-        '10 - выйти из программы',
-        'Введите число: ']
+variants = ['1 - Загрузить данные из hh в БД',
+            '2 - Вывести все компании и количество их вакансий',
+            '3 - Вывести список всех вакансий',
+            '4 - Вывести среднюю зарплату по вакансиям',
+            '5 - Вывести вакансии, у которых зарплата выше средней',
+            '6 - Вывести из БД вакансии по ключевому слову',
+            '7 - Проинициализировать БД (если первый запуск)',
+            '10 - выйти из программы',
+            'Введите число: ']
+
+variants = '\n'.join(variants)
 
 manager = DBManager()
 
 while 1:
-    action = input('\n'.join(data))
+    action = input(variants)
 
     if action == '1':
         vacs = load_api()
@@ -34,7 +36,7 @@ while 1:
     if action == '4':
         data = manager.get_avg_salary()
         for i in data:
-            print(*i)
+            print(f'{int(*i)} руб')
 
     if action == '5':
         data = manager.get_vacancies_with_higher_salary()
@@ -48,6 +50,7 @@ while 1:
 
     if action == '7':
         data = manager.create_table()
+        print('\nOK\n')
 
     if action == '10':
         break
