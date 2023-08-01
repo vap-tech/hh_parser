@@ -9,13 +9,16 @@ variants = ['1 - Загрузить данные из hh в БД',
             '6 - Вывести из БД вакансии по ключевому слову',
             '7 - Проинициализировать БД (если первый запуск)',
             '10 - выйти из программы',
+            '',
             'Введите число: ']
 
 variants = '\n'.join(variants)
 
 manager = DBManager()
+print()
 
 while 1:
+
     action = input(variants)
 
     if action == '1':
@@ -54,3 +57,5 @@ while 1:
 
     if action == '10':
         break
+
+    print()
